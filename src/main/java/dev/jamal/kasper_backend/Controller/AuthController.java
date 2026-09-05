@@ -1,5 +1,7 @@
 package dev.jamal.kasper_backend.Controller;
 
+import dev.jamal.kasper_backend.DTO.AuthResponseDTO;
+import dev.jamal.kasper_backend.DTO.LoginRequestDTO;
 import dev.jamal.kasper_backend.DTO.RegisterRequestDTO;
 import dev.jamal.kasper_backend.DTO.RegisterResponseDTO;
 import dev.jamal.kasper_backend.Service.AuthService;
@@ -27,5 +29,15 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO request
+    ) {
+
+        return ResponseEntity.ok(
+                authService.login(request)
+        );
     }
 }
