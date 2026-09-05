@@ -1,0 +1,31 @@
+package dev.jamal.kasper_backend.Controller;
+
+import dev.jamal.kasper_backend.DTO.RegisterRequestDTO;
+import dev.jamal.kasper_backend.DTO.RegisterResponseDTO;
+import dev.jamal.kasper_backend.Service.AuthService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+
+    private final AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponseDTO> register(
+            @Valid @RequestBody RegisterRequestDTO request
+    ) {
+
+        RegisterResponseDTO response = authService.register(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+    }
+}
