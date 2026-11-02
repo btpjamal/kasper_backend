@@ -1,0 +1,13 @@
+FROM postgres:16-alpine
+
+ENV POSTGRES_DB=kasper_db \
+    POSTGRES_USER=postgres \
+    POSTGRES_PASSWORD=postgres
+
+# Porta padrão do PostgreSQL
+EXPOSE 5432
+
+# Diretório para persistir os dados do banco
+VOLUME ["/var/lib/postgresql/data"]
+
+CMD ["postgres"]
