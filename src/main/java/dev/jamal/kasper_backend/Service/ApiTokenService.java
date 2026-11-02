@@ -43,19 +43,21 @@ public class ApiTokenService {
 
         User user = getUser(userEmail);
 
-        String rawToken = generateToken();
+        String rawToken = (request.token() != null && !request.token().trim().isEmpty())
+                ? request.token().trim()
+                : generateToken();
 
         String tokenHash = hashToken(rawToken);
 
-        String displayPrefix = rawToken.substring(
-                0,
-                Math.min(rawToken.length(), 24)
-        ) + "...";
+        String displayPrefix = rawToken.length() > 24
+                ? rawToken.substring(0, 24) + "..."
+                : rawToken;
 
         LocalDateTime now = LocalDateTime.now();
 
         ApiToken apiToken = ApiToken.builder()
                 .name(request.name().trim())
+                .token(rawToken)
                 .tokenHash(tokenHash)
                 .tokenPrefix(displayPrefix)
                 .active(true)
@@ -69,6 +71,7 @@ public class ApiTokenService {
 
         return new CreateApiTokenResponseDTO(
                 savedToken.getId(),
+                user.getId(),
                 savedToken.getName(),
                 rawToken,
                 savedToken.getCreatedAt(),
@@ -204,23 +207,28 @@ public class ApiTokenService {
     @Transactional
     public ApiTokenPrincipal authenticate(String rawToken) {
 
-        if (rawToken == null ||
-                !rawToken.startsWith(TOKEN_PREFIX)) {
-
+        if (rawToken == null || rawToken.trim().isEmpty()) {
             throw new BadCredentialsException(
-                    "API Token inválido"
+                    "API Token inválido ou não fornecido"
             );
         }
 
-        String tokenHash = hashToken(rawToken);
+        String cleanedToken = rawToken.trim();
 
+        // Tenta buscar diretamente pelo token salvo
         ApiToken apiToken = apiTokenRepository
-                .findByTokenHashAndActiveTrue(tokenHash)
-                .orElseThrow(() ->
-                        new BadCredentialsException(
-                                "API Token inválido"
-                        )
-                );
+                .findByTokenAndActiveTrue(cleanedToken)
+                .orElseGet(() -> {
+                    // Se não encontrar direto, tenta pelo hash
+                    String tokenHash = hashToken(cleanedToken);
+                    return apiTokenRepository
+                            .findByTokenHashAndActiveTrue(tokenHash)
+                            .orElseThrow(() ->
+                                    new BadCredentialsException(
+                                            "API Token inválido ou não encontrado"
+                                    )
+                            );
+                });
 
         LocalDateTime now = LocalDateTime.now();
 

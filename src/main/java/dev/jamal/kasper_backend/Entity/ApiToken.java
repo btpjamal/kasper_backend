@@ -22,6 +22,9 @@ public class ApiToken {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "token", length = 255)
+    private String token;
+
     @Column(nullable = false, unique = true, length = 64)
     private String tokenHash;
 
