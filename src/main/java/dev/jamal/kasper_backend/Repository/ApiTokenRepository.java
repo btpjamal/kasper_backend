@@ -20,4 +20,12 @@ public interface ApiTokenRepository
     Optional<ApiToken> findByTokenHashAndActiveTrue(
             String tokenHash
     );
+
+    Optional<ApiToken> findByTokenAndActiveTrue(
+            String token
+    );
+
+    Optional<ApiToken> findByToken(
+            String token
+    );
 }
