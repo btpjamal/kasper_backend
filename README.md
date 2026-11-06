@@ -1299,32 +1299,7 @@ POST http://localhost:8000/predict
 }
 ```
 
----
-
-# 36. Próximas melhorias
-
-As próximas etapas previstas para o projeto são:
-
-* adaptar o DTO para as features reais do modelo;
-* integrar o modelo de Machine Learning real;
-* criar histórico das previsões;
-* registrar qual API Token realizou cada previsão;
-* criar tratamento global de exceções;
-* padronizar erros da API;
-* criar documentação Swagger/OpenAPI;
-* adicionar métricas de utilização dos tokens;
-* criar limite de requisições;
-* adicionar roles administrativas;
-* criar testes unitários;
-* criar testes de integração;
-* implementar migrations com Flyway;
-* preparar Docker;
-* preparar deploy;
-* adicionar logs e auditoria.
-
----
-
-# 37. Estado atual do projeto
+# 36. Estado atual do projeto
 
 ## Autenticação
 
