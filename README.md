@@ -1360,9 +1360,9 @@ As próximas etapas previstas para o projeto são:
 * [x] Estrutura para API externa
 * [x] Probabilidade de evasão
 * [x] Nível de risco
-* [ ] Adaptar para as features reais
-* [ ] Conectar modelo definitivo
-* [ ] Histórico de previsões
+* [x] Adaptar para as features reais
+* [x] Conectar modelo definitivo
+* [x] Histórico de previsões
 
 ---
 
